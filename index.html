@@ -8,7 +8,11 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+
+
 <style>
+
+
 
 body{
     background:linear-gradient(135deg,#eef2ff,#fdf2f8,#ecfeff);
@@ -54,21 +58,87 @@ font-size:5rem;
 }
 }
 
+
+.envelope{
+
+position:absolute;
+width:80px;
+height:80px;
+
+background:white;
+
+border-radius:20px;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+box-shadow:0 12px 30px rgba(0,0,0,.12);
+
+transition:.3s;
+
+animation:float 7s ease-in-out infinite;
+
+font-size:26px;
+
+}
+
+.envelope:hover{
+
+transform:scale(1.12) rotate(4deg);
+
+}
+
+.envelope span{
+
+font-weight:bold;
+
+font-size:18px;
+
+margin-top:3px;
+
+}
+
+.e1{top:-40px;left:-90px;}
+.e2{top:-20px;right:-90px;}
+.e3{top:150px;left:-120px;}
+.e4{top:150px;right:-120px;}
+.e5{bottom:70px;left:-100px;}
+.e6{bottom:70px;right:-100px;}
+.e7{bottom:-45px;left:50%;transform:translateX(-50%);}
+
+
 </style>
 
 </head>
 
 <body class="h-screen flex items-center justify-center">
+<div id="loginDecorations">
+<div class="float top-8 left-10">
+    <img src="images/smile.png" class="w-24 h-24">
+</div>
 
-<!-- Decorations -->
+<div class="float bottom-10 right-10" style="animation-delay:2s;">
+    <img src="images/honeybee.png" class="w-24 h-24">
+</div>
 
-<div class="float top-8 left-10 text-7xl"><img src="images/smile.png" class="w-24 h-24"></div>
-<div class="float bottom-10 right-10 text-7xl" style="animation-delay:2s;"><img src="images/honeybee.png" class="w-24 h-24"></div>
-<div class="float top-24 right-20 text-6xl" style="animation-delay:4s;"><img src="images/monkey.png" class="w-24 h-24"></div>
-<div class="float bottom-24 left-20 text-6xl" style="animation-delay:1s;"><img src="images/tongue.png" class="w-24 h-24"></div>
-<div class="float left-1/2 top-12 text-6xl" style="animation-delay:3s;"><img src="images/vampire.png" class="w-24 h-24"></div>
+<div class="float top-24 right-20" style="animation-delay:4s;">
+    <img src="images/monkey.png" class="w-24 h-24">
+</div>
 
+<div class="float bottom-24 left-20" style="animation-delay:1s;">
+    <img src="images/tongue.png" class="w-24 h-24">
+</div>
 
+<div class="float left-1/2 top-12" style="animation-delay:3s;">
+    <img src="images/vampire.png" class="w-24 h-24">
+</div>
+</div>
+
+</div>
 <!-- LOGIN -->
 
 <div id="loginScreen" class="fade w-full max-w-md p-8">
@@ -115,8 +185,21 @@ Incorrect credentials
 
 <!-- COUNTDOWN -->
 
-<div id="countdownScreen" class="hidden fade">
-
+<div id="countdownScreen" class="hidden fade relative">
+<div class="envelope e1" onclick="openLetter(1)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">1</div></div>
+<div class="envelope e2" onclick="openLetter(2)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">2</div></div>
+<div class="envelope e3" onclick="openLetter(3)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">3</div></div>
+<div class="envelope e4" onclick="openLetter(4)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">4</div></div>
+<div class="envelope e5" onclick="openLetter(5)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">5</div></div>
+<div class="envelope e6" onclick="openLetter(6)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">6</div></div>
+<div class="envelope e7" onclick="openLetter(7)"><img src="images/letter.png" class="w-16">
+    <div class="absolute font-bold text-lg">7</div></div>
 <div class="card rounded-3xl px-8 py-10 text-center">
 
 <h1 class="text-4xl md:text-5xl font-bold mb-3">
@@ -159,6 +242,33 @@ Until August 1, 2026
 
 </div>
 
+<div id="letterModal"
+class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+<div class="card rounded-3xl p-8 w-[90%] max-w-lg">
+
+<h2 id="letterTitle"
+class="text-3xl font-bold mb-6">
+Letter
+</h2>
+
+<p id="letterText"
+class="text-lg leading-8 text-gray-700">
+...
+</p>
+
+<button
+onclick="closeLetter()"
+class="mt-8 w-full bg-indigo-600 text-white rounded-xl py-3">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
 <script>
 
 const USERNAME="Nicole";
@@ -172,6 +282,7 @@ const pass=document.getElementById("password").value;
 if(user===USERNAME && pass===PASSWORD){
 
 document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("loginDecorations").classList.add("hidden");
 document.getElementById("countdownScreen").classList.remove("hidden");
 
 updateCountdown();
@@ -188,6 +299,40 @@ document.getElementById("error").classList.remove("hidden");
 document.getElementById("password").addEventListener("keypress",function(e){
 if(e.key==="Enter") login();
 });
+
+const letters=[
+
+"Write your first anecdote here ❤️",
+
+"Second memory...",
+
+"Third memory...",
+
+"Fourth memory...",
+
+"Fifth memory...",
+
+"Sixth memory...",
+
+"Seventh memory..."
+
+];
+
+function openLetter(n){
+
+document.getElementById("letterTitle").textContent="Envelope #"+n;
+
+document.getElementById("letterText").textContent=letters[n-1];
+
+document.getElementById("letterModal").classList.remove("hidden");
+
+}
+
+function closeLetter(){
+
+document.getElementById("letterModal").classList.add("hidden");
+
+}
 
 function updateCountdown(){
 
