@@ -62,8 +62,8 @@ font-size:5rem;
 .envelope{
 
 position:absolute;
-width:80px;
-height:80px;
+width:160px;
+height:160px;
 
 background:white;
 
@@ -88,7 +88,7 @@ font-size:26px;
 
 .envelope:hover{
 
-transform:scale(1.12) rotate(4deg);
+transform:translateX(-50%) scale(1.12) rotate(4deg);
 
 }
 
@@ -102,14 +102,49 @@ margin-top:3px;
 
 }
 
-.e1{top:-40px;left:-90px;}
-.e2{top:-20px;right:-90px;}
-.e3{top:150px;left:-120px;}
-.e4{top:150px;right:-120px;}
-.e5{bottom:70px;left:-100px;}
-.e6{bottom:70px;right:-100px;}
-.e7{bottom:-45px;left:50%;transform:translateX(-50%);}
+.e1{
+    top:-70px;
+    left:-90px;
+}
 
+.e2{
+    top:-70px;
+    right:-90px;
+}
+
+.e3{
+    top:90px;
+    left:-120px;
+}
+
+.e4{
+    top:90px;
+    right:-120px;
+}
+
+.e5{
+    bottom:90px;
+    left:-120px;
+}
+
+.e6{
+    bottom:90px;
+    right:-120px;
+}
+
+.e7{
+    bottom:-70px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.e1 { animation-delay:0s; }
+.e2 { animation-delay:.8s; }
+.e3 { animation-delay:1.5s; }
+.e4 { animation-delay:2.2s; }
+.e5 { animation-delay:3s; }
+.e6 { animation-delay:3.8s; }
+.e7 { animation-delay:4.5s; }
 
 </style>
 
@@ -138,7 +173,6 @@ margin-top:3px;
 </div>
 </div>
 
-</div>
 <!-- LOGIN -->
 
 <div id="loginScreen" class="fade w-full max-w-md p-8">
@@ -185,22 +219,23 @@ Incorrect credentials
 
 <!-- COUNTDOWN -->
 
-<div id="countdownScreen" class="hidden fade relative">
-<div class="envelope e1" onclick="openLetter(1)"><img src="images/letter.png" class="w-16">
+<div id="countdownScreen" class="hidden fade relative w-screen h-screen items-center justify-center">
+<div class="relative card rounded-3xl px-8 py-10 text-center">
+
+<div class="envelope e1" onclick="openLetter(1)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">1</div></div>
-<div class="envelope e2" onclick="openLetter(2)"><img src="images/letter.png" class="w-16">
+<div class="envelope e2" onclick="openLetter(2)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">2</div></div>
-<div class="envelope e3" onclick="openLetter(3)"><img src="images/letter.png" class="w-16">
+<div class="envelope e3" onclick="openLetter(3)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">3</div></div>
-<div class="envelope e4" onclick="openLetter(4)"><img src="images/letter.png" class="w-16">
+<div class="envelope e4" onclick="openLetter(4)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">4</div></div>
-<div class="envelope e5" onclick="openLetter(5)"><img src="images/letter.png" class="w-16">
+<div class="envelope e5" onclick="openLetter(5)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">5</div></div>
-<div class="envelope e6" onclick="openLetter(6)"><img src="images/letter.png" class="w-16">
+<div class="envelope e6" onclick="openLetter(6)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">6</div></div>
-<div class="envelope e7" onclick="openLetter(7)"><img src="images/letter.png" class="w-16">
+<div class="envelope e7" onclick="openLetter(7)"><img src="images/letter.png" class="w-32">
     <div class="absolute font-bold text-lg">7</div></div>
-<div class="card rounded-3xl px-8 py-10 text-center">
 
 <h1 class="text-4xl md:text-5xl font-bold mb-3">
 🎯 Countdown
@@ -283,7 +318,9 @@ if(user===USERNAME && pass===PASSWORD){
 
 document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("loginDecorations").classList.add("hidden");
-document.getElementById("countdownScreen").classList.remove("hidden");
+const countdown = document.getElementById("countdownScreen");
+countdown.classList.remove("hidden");
+countdown.classList.add("flex");
 
 updateCountdown();
 setInterval(updateCountdown,1000);
@@ -302,25 +339,35 @@ if(e.key==="Enter") login();
 
 const letters=[
 
-"Write your first anecdote here ❤️",
+"The best flight ever",
 
-"Second memory...",
+"The salty rocks",
 
-"Third memory...",
+"The most incredible football match",
 
-"Fourth memory...",
+"The sushi pops",
 
-"Fifth memory...",
+"The best Subway sandwich ever",
 
-"Sixth memory...",
+"Your cut white vest from Paris",
 
-"Seventh memory..."
+"The two poor little ducks"
 
+];
+
+const dates = [
+  "10 June 2026",
+  "13 June 2026",
+  "16 June 2026",
+  "18 June 2026",
+  "23 June 2026",
+  "24 June 2026",
+  "25 June 2026"
 ];
 
 function openLetter(n){
 
-document.getElementById("letterTitle").textContent="Envelope #"+n;
+document.getElementById("letterTitle").textContent = dates[n - 1];
 
 document.getElementById("letterText").textContent=letters[n-1];
 
