@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Countdown</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+body{
+    background:linear-gradient(135deg,#eef2ff,#fdf2f8,#ecfeff);
+    overflow:hidden;
+}
+
+.fade{
+    animation:fade .7s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:scale(.98);}
+to{opacity:1;transform:scale(1);}
+}
+
+.float{
+position:absolute;
+opacity:.18;
+animation:float 10s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0px);}
+50%{transform:translateY(-30px);}
+}
+
+.card{
+backdrop-filter:blur(20px);
+background:rgba(255,255,255,.75);
+border:1px solid rgba(255,255,255,.6);
+box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+.number{
+font-size:3rem;
+font-weight:700;
+line-height:1;
+}
+
+@media(min-width:768px){
+.number{
+font-size:5rem;
+}
+}
+
+</style>
+
+</head>
+
+<body class="h-screen flex items-center justify-center">
+
+<!-- Decorations -->
+
+<div class="float top-8 left-10 text-7xl">✨</div>
+<div class="float bottom-10 right-10 text-7xl" style="animation-delay:2s;">🚀</div>
+<div class="float top-24 right-20 text-6xl" style="animation-delay:4s;">🌈</div>
+<div class="float bottom-24 left-20 text-6xl" style="animation-delay:1s;">🎉</div>
+<div class="float left-1/2 top-12 text-6xl" style="animation-delay:3s;">💫</div>
+
+<!-- LOGIN -->
+
+<div id="loginScreen" class="fade w-full max-w-md p-8">
+
+<div class="card rounded-3xl p-8">
+
+<h1 class="text-4xl font-bold text-center mb-2">
+🔐
+</h1>
+
+<h2 class="text-2xl font-bold text-center">
+Welcome
+</h2>
+
+<p class="text-center text-gray-500 mb-8">
+Enter credentials to continue
+</p>
+
+<input
+id="username"
+type="text"
+placeholder="Username"
+class="w-full p-3 rounded-xl border mb-4 outline-none focus:ring-2 focus:ring-indigo-400">
+
+<input
+id="password"
+type="password"
+placeholder="Password"
+class="w-full p-3 rounded-xl border mb-6 outline-none focus:ring-2 focus:ring-indigo-400">
+
+<button
+onclick="login()"
+class="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-3 font-semibold transition">
+Login
+</button>
+
+<p id="error" class="text-red-500 text-center mt-4 hidden">
+Incorrect credentials
+</p>
+
+</div>
+
+</div>
+
+<!-- COUNTDOWN -->
+
+<div id="countdownScreen" class="hidden fade">
+
+<div class="card rounded-3xl px-8 py-10 text-center">
+
+<h1 class="text-4xl md:text-5xl font-bold mb-3">
+🎯 Countdown
+</h1>
+
+<p class="text-gray-500 mb-10">
+Until August 1, 2026 • Midnight CET
+</p>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+<div>
+<div id="days" class="number text-indigo-600">0</div>
+<div class="uppercase text-gray-500 tracking-widest">Days</div>
+</div>
+
+<div>
+<div id="hours" class="number text-pink-600">0</div>
+<div class="uppercase text-gray-500 tracking-widest">Hours</div>
+</div>
+
+<div>
+<div id="minutes" class="number text-cyan-600">0</div>
+<div class="uppercase text-gray-500 tracking-widest">Minutes</div>
+</div>
+
+<div>
+<div id="seconds" class="number text-emerald-600">0</div>
+<div class="uppercase text-gray-500 tracking-widest">Seconds</div>
+</div>
+
+</div>
+
+<div class="mt-10 text-gray-400 text-sm">
+✨ Every second brings us closer ✨
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const USERNAME="Nicole";
+const PASSWORD="10/06/2026";
+
+function login(){
+
+const user=document.getElementById("username").value;
+const pass=document.getElementById("password").value;
+
+if(user===USERNAME && pass===PASSWORD){
+
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("countdownScreen").classList.remove("hidden");
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+}else{
+
+document.getElementById("error").classList.remove("hidden");
+
+}
+
+}
+
+document.getElementById("password").addEventListener("keypress",function(e){
+if(e.key==="Enter") login();
+});
+
+function updateCountdown(){
+
+// Midnight at start of Aug 1, 2026 in Central European Time (UTC+1)
+// Note: This uses a fixed UTC timestamp corresponding to 2026-07-31T23:00:00Z.
+
+const target = new Date("2026-07-31T23:00:00Z").getTime();
+
+const now = new Date().getTime();
+
+const diff=target-now;
+
+if(diff<=0){
+
+document.getElementById("days").textContent=0;
+document.getElementById("hours").textContent=0;
+document.getElementById("minutes").textContent=0;
+document.getElementById("seconds").textContent=0;
+
+return;
+
+}
+
+const days=Math.floor(diff/(1000*60*60*24));
+const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const minutes=Math.floor((diff%(1000*60*60))/(1000*60));
+const seconds=Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("days").textContent=days;
+document.getElementById("hours").textContent=String(hours).padStart(2,"0");
+document.getElementById("minutes").textContent=String(minutes).padStart(2,"0");
+document.getElementById("seconds").textContent=String(seconds).padStart(2,"0");
+
+}
+
+</script>
+
+</body>
+</html>
